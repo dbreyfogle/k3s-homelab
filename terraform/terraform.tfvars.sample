@@ -1,0 +1,27 @@
+pm_api_url = "https://proxmox-server01.example.com:8006/api2/json"
+pm_api_token_id = "terraform-prov@pve!mytoken"
+pm_api_token_secret = ""
+pm_target_node = "pve"
+pm_vm_template = "ubuntu-24.04-template"
+pm_vmid_start = 200
+pm_tls_insecure = true
+pm_parallel = 1
+
+cicustom = "vendor=local:snippets/qemu-guest-agent.yml"
+sshkeys = <<EOT
+<ssh_key_1>
+<ssh_key_2>
+EOT
+
+k3s_server_num = 1
+k3s_server_cores = 2
+k3s_server_memory = 4096
+k3s_server_storage = "15G"
+
+k3s_agent_num = 2
+k3s_agent_cores = 2
+k3s_agent_memory = 2048
+k3s_agent_storage = "15G"
+
+emulatessd = true
+discard = true
