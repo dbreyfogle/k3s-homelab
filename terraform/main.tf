@@ -87,3 +87,12 @@ resource "proxmox_vm_qemu" "k3s_agent_vm" {
     model  = "virtio"
   }
 }
+
+resource "local_file" "ansible_inventory" {
+  content = templatefile("${path.module}/inventory.yml.tftpl", {
+    server_ips = proxmox_vm_qemu.k3s_server_vm[*].default_ipv4_address
+    agent_ips  = proxmox_vm_qemu.k3s_agent_vm[*].default_ipv4_address
+  })
+  filename        = "${path.module}/../k3s-ansible/inventory.yml"
+  file_permission = "0644"
+}
