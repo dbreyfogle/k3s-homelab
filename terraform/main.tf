@@ -40,6 +40,7 @@ resource "proxmox_vm_qemu" "k3s_server_vm" {
   network {
     bridge = "vmbr0"
     model  = "virtio"
+    tag    = var.tag
   }
 }
 
@@ -85,6 +86,7 @@ resource "proxmox_vm_qemu" "k3s_agent_vm" {
   network {
     bridge = "vmbr0"
     model  = "virtio"
+    tag    = var.tag
   }
 }
 

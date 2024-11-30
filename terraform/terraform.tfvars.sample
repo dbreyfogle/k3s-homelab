@@ -25,3 +25,4 @@ k3s_agent_storage = "15G"
 
 emulatessd = true
 discard = true
+tag = 0

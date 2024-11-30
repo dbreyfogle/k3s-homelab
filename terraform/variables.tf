@@ -78,3 +78,7 @@ variable "emulatessd" {
 variable "discard" {
   type = bool
 }
+
+variable "tag" {
+  type = number
+}
