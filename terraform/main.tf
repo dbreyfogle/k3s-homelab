@@ -14,7 +14,7 @@ resource "proxmox_vm_qemu" "k3s_server_vm" {
   # cloud-init
   cicustom  = var.cicustom
   ciuser    = "root"
-  sshkeys   = var.sshkeys
+  sshkeys   = data.hcp_vault_secrets_app.k3s_homelab.secrets.ssh_keys
   ciupgrade = true
   ipconfig0 = "ip=dhcp"
 
@@ -38,6 +38,7 @@ resource "proxmox_vm_qemu" "k3s_server_vm" {
     }
   }
   network {
+    id     = 0
     bridge = "vmbr0"
     model  = "virtio"
     tag    = var.tag
@@ -60,7 +61,7 @@ resource "proxmox_vm_qemu" "k3s_agent_vm" {
   # cloud-init
   cicustom  = var.cicustom
   ciuser    = "root"
-  sshkeys   = var.sshkeys
+  sshkeys   = data.hcp_vault_secrets_app.k3s_homelab.secrets.ssh_keys
   ciupgrade = true
   ipconfig0 = "ip=dhcp"
 
@@ -84,6 +85,7 @@ resource "proxmox_vm_qemu" "k3s_agent_vm" {
     }
   }
   network {
+    id     = 0
     bridge = "vmbr0"
     model  = "virtio"
     tag    = var.tag
