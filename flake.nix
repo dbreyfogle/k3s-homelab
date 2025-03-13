@@ -30,6 +30,7 @@
             kubectl
             minikube
             terraform
+            kubernetes-helm
           ];
         };
       }
