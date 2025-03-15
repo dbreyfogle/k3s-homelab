@@ -1,0 +1,5 @@
+node_name = "pve"
+vlan_id = ""
+start_vm_id = 200
+num_servers = 1
+num_agents = 2
