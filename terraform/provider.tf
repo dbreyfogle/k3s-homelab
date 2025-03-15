@@ -1,5 +1,5 @@
 terraform {
-  required_version = "~> 1.10.0"
+  required_version = "~> 1.11.2"
   required_providers {
     local = {
       source  = "hashicorp/local"
@@ -7,29 +7,34 @@ terraform {
     }
     hcp = {
       source  = "hashicorp/hcp"
-      version = "~> 0.102.0"
+      version = "~> 0.104.0"
     }
     proxmox = {
-      source  = "telmate/proxmox"
-      version = "3.0.1-rc6"
+      source  = "bpg/proxmox"
+      version = "~> 0.73.1"
     }
   }
-  cloud {
-    # HCP Terraform for state file syncing
-    # configured with environment variables
+  cloud { # remote state with HCP Terraform
+    organization = "dbreyfogle"
+    workspaces {
+      name = "k3s-homelab"
+    }
   }
 }
 
-provider "hcp" {} # secrets stored in HCP Vault Secrets
+provider "hcp" {} # secret management with HCP Vault Secrets
 
 data "hcp_vault_secrets_app" "k3s_homelab" {
   app_name = "k3s-homelab"
 }
 
 provider "proxmox" {
-  pm_api_url          = data.hcp_vault_secrets_app.k3s_homelab.secrets.pm_api_url
-  pm_api_token_id     = data.hcp_vault_secrets_app.k3s_homelab.secrets.pm_api_token_id
-  pm_api_token_secret = data.hcp_vault_secrets_app.k3s_homelab.secrets.pm_api_token_secret
-  pm_tls_insecure     = var.pm_tls_insecure
-  pm_parallel         = var.pm_parallel
+  endpoint  = data.hcp_vault_secrets_app.k3s_homelab.secrets.pm_endpoint
+  api_token = data.hcp_vault_secrets_app.k3s_homelab.secrets.pm_api_token
+  insecure  = false
+  ssh {
+    agent       = true
+    username    = "terraform"
+    private_key = data.hcp_vault_secrets_app.k3s_homelab.secrets.pm_ssh_private_key
+  }
 }
