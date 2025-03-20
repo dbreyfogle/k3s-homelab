@@ -26,8 +26,10 @@
         devShells.default = pkgs.mkShell {
           packages = with pkgs; [
             ansible
+            awscli2
             hcp
             kubectl
+            kubernetes-helm
             minikube
             terraform
           ];
